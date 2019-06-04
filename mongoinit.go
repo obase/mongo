@@ -4,78 +4,83 @@ import (
 	"fmt"
 	"github.com/globalsign/mgo"
 	"github.com/obase/conf"
+	"sync"
 	"time"
 )
 
 const CKEY = "mongo"
 
 // 对接conf.yml, 读取原redis相关配置
-func init() {
-	conf.Init()
-	configs, ok := conf.GetSlice(CKEY)
-	if !ok || len(configs) == 0 {
-		return
-	}
+var once sync.Once
 
-	for _, config := range configs {
-		if key, ok := conf.ElemString(config, "key"); ok {
-			address, ok := conf.ElemStringSlice(config, "address")
-			database, ok := conf.ElemString(config, "database")
-			username, ok := conf.ElemString(config, "username")
-			password, ok := conf.ElemString(config, "password")
-			source, ok := conf.ElemString(config, "source")
-			safe, ok := conf.ElemMap(config, "safe")
-			mode, ok := conf.Elem(config, "mode")
+func Init() {
+	once.Do(func() {
+		conf.Init()
+		configs, ok := conf.GetSlice(CKEY)
+		if !ok || len(configs) == 0 {
+			return
+		}
 
-			keepalive, ok := conf.ElemDuration(config, "keepalive")
-			if !ok {
-				keepalive = time.Minute
-			}
-			connectTimeout, ok := conf.ElemDuration(config, "connectTimeout")
-			if !ok {
-				connectTimeout = 30 * time.Second
-			}
-			readTimeout, ok := conf.ElemDuration(config, "readTimeout")
-			if !ok {
-				readTimeout = 30 * time.Second
-			}
-			writeTimeout, ok := conf.ElemDuration(config, "writeTimeout")
-			if !ok {
-				writeTimeout = 30 * time.Second
-			}
-			minPoolSize, ok := conf.ElemInt(config, "minPoolSize")
-			maxPoolSize, ok := conf.ElemInt(config, "maxPoolSize")
-			if !ok {
-				maxPoolSize = 16
-			}
-			maxPoolWaitTimeMS, ok := conf.ElemInt(config, "maxPoolWaitTimeMS")
-			maxPoolIdleTimeMS, ok := conf.ElemInt(config, "maxPoolIdleTimeMS")
+		for _, config := range configs {
+			if key, ok := conf.ElemString(config, "key"); ok {
+				address, ok := conf.ElemStringSlice(config, "address")
+				database, ok := conf.ElemString(config, "database")
+				username, ok := conf.ElemString(config, "username")
+				password, ok := conf.ElemString(config, "password")
+				source, ok := conf.ElemString(config, "source")
+				safe, ok := conf.ElemMap(config, "safe")
+				mode, ok := conf.Elem(config, "mode")
 
-			defalt, ok := conf.ElemBool(config, "default")
+				keepalive, ok := conf.ElemDuration(config, "keepalive")
+				if !ok {
+					keepalive = time.Minute
+				}
+				connectTimeout, ok := conf.ElemDuration(config, "connectTimeout")
+				if !ok {
+					connectTimeout = 30 * time.Second
+				}
+				readTimeout, ok := conf.ElemDuration(config, "readTimeout")
+				if !ok {
+					readTimeout = 30 * time.Second
+				}
+				writeTimeout, ok := conf.ElemDuration(config, "writeTimeout")
+				if !ok {
+					writeTimeout = 30 * time.Second
+				}
+				minPoolSize, ok := conf.ElemInt(config, "minPoolSize")
+				maxPoolSize, ok := conf.ElemInt(config, "maxPoolSize")
+				if !ok {
+					maxPoolSize = 16
+				}
+				maxPoolWaitTimeMS, ok := conf.ElemInt(config, "maxPoolWaitTimeMS")
+				maxPoolIdleTimeMS, ok := conf.ElemInt(config, "maxPoolIdleTimeMS")
 
-			option := &Option{
-				Address:           address,
-				Database:          database,
-				Username:          username,
-				Password:          password,
-				Source:            source,
-				Safe:              getSafe(safe),
-				Mode:              getMode(mode),
-				ConnectTimeout:    connectTimeout,
-				Keepalive:         keepalive,
-				WriteTimeout:      writeTimeout,
-				ReadTimeout:       readTimeout,
-				MinPoolSize:       minPoolSize,
-				MaxPoolSize:       maxPoolSize,
-				MaxPoolWaitTimeMS: maxPoolWaitTimeMS,
-				MaxPoolIdleTimeMS: maxPoolIdleTimeMS,
-			}
+				defalt, ok := conf.ElemBool(config, "default")
 
-			if err := Init(key, option, defalt); err != nil {
-				panic(err)
+				option := &Option{
+					Address:           address,
+					Database:          database,
+					Username:          username,
+					Password:          password,
+					Source:            source,
+					Safe:              getSafe(safe),
+					Mode:              getMode(mode),
+					ConnectTimeout:    connectTimeout,
+					Keepalive:         keepalive,
+					WriteTimeout:      writeTimeout,
+					ReadTimeout:       readTimeout,
+					MinPoolSize:       minPoolSize,
+					MaxPoolSize:       maxPoolSize,
+					MaxPoolWaitTimeMS: maxPoolWaitTimeMS,
+					MaxPoolIdleTimeMS: maxPoolIdleTimeMS,
+				}
+
+				if err := Setup(key, option, defalt); err != nil {
+					panic(err)
+				}
 			}
 		}
-	}
+	})
 }
 
 func getMode(val interface{}) mgo.Mode {

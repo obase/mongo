@@ -218,7 +218,7 @@ func mergeOption(opt *Option) *Option {
 	return opt
 }
 
-func Init(name string, opt *Option, def bool) (err error) {
+func Setup(name string, opt *Option, def bool) (err error) {
 	_, ok := Clients[name]
 	if ok {
 		err = ErrDupKey
