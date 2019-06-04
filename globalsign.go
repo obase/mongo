@@ -513,8 +513,10 @@ func (gs *gsSession) RunBulk(c string, f BulkFunc, args ...interface{}) (matched
 	bk := cs.DB(gs.Option.Database).C(c).Bulk()
 	f(&gsBulk{Bulk: bk}, args...)
 	rs, err := bk.Run()
-	matched = rs.Matched
-	modified = rs.Modified
+	if rs != nil && err == nil {
+		matched = rs.Matched
+		modified = rs.Modified
+	}
 	return
 }
 
