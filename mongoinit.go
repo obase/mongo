@@ -15,7 +15,6 @@ var once sync.Once
 
 func Init() {
 	once.Do(func() {
-		conf.Init()
 		configs, ok := conf.GetSlice(CKEY)
 		if !ok || len(configs) == 0 {
 			return
