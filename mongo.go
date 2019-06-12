@@ -3,6 +3,7 @@ package mongo
 import (
 	"errors"
 	"github.com/globalsign/mgo"
+	"strings"
 	"time"
 )
 
@@ -371,7 +372,11 @@ func Setup(name string, opt *Option, def bool) (err error) {
 		return
 	}
 
-	Clients[name] = m
+	for _, k := range strings.Split(name, ",") {
+		if k = strings.TrimSpace(k); len(k) > 0 {
+			Clients[k] = m
+		}
+	}
 	if def {
 		Default = m
 	}
