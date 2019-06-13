@@ -337,10 +337,10 @@ var (
 )
 
 func Get(name string) Mongo {
-	if name == "" {
-		return Default
+	if rt, ok := Clients[name]; ok {
+		return rt
 	}
-	return Clients[name]
+	return nil
 }
 
 var (
