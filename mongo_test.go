@@ -28,8 +28,8 @@ func TestFindAll(t *testing.T) {
 
 func TestRunBulk(t *testing.T) {
 	RunBulk(c, func(bk Bulk, args ...interface{}) {
-		bk.Insert(bson.M{"_id": 4, "name": "hehe"})
-		bk.UpdateOne(bson.M{"_id": 4}, bson.M{"name": "hehe"})
+		bk.Insert(bson.M{"_id": 43, "name": "hehe"})
+		bk.UpdateOne(bson.M{"_id": 43}, bson.M{"name": "hehe"})
 	})
 }
 

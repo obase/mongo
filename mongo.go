@@ -25,6 +25,9 @@ type Mongo interface {
 	Indexes(c string) (indexes []mgo.Index, err error)
 	EnsureIndex(c string, index mgo.Index) error
 	EnsureIndexKey(c string, key ...string) error
+	DropIndex(c string, key ...string) error
+	DropIndexName(c string, name string) error
+
 	// For whole document
 	FindOne(c string, ret interface{}, query interface{}) (bool, error)
 	FindAll(c string, ret interface{}, query interface{}, sort ...string) error
@@ -62,6 +65,9 @@ type Mongo interface {
 	DBIndexes(d string, c string) (indexes []mgo.Index, err error)
 	DBEnsureIndex(d string, c string, index mgo.Index) error
 	DBEnsureIndexKey(d string, c string, key ...string) error
+	DBDropIndex(d string, c string, key ...string) error
+	DBDropIndexName(d string, c string, name string) error
+
 	// For whole document
 	DBFindOne(d string, c string, ret interface{}, query interface{}) (bool, error)
 	DBFindAll(d string, c string, ret interface{}, query interface{}, sort ...string) error
@@ -110,6 +116,13 @@ func EnsureIndex(c string, index mgo.Index) error {
 func EnsureIndexKey(c string, key ...string) error {
 	return Default.EnsureIndexKey(c, key...)
 }
+func DropIndex(c string, key ...string) error {
+	return Default.DropIndex(c, key...)
+}
+func DropIndexName(c string, name string) error {
+	return Default.DropIndexName(c, name)
+}
+
 func FindOne(c string, ret interface{}, query interface{}) (bool, error) {
 	return Default.FindOne(c, query, ret)
 }
@@ -212,6 +225,12 @@ func DBEnsureIndex(d string, c string, index mgo.Index) error {
 }
 func DBEnsureIndexKey(d string, c string, key ...string) error {
 	return Default.DBEnsureIndexKey(d, c, key...)
+}
+func DBDropIndex(d string, c string, key ...string) error {
+	return Default.DBDropIndex(d, c, key...)
+}
+func DBDropIndexName(d string, c string, name string) error {
+	return Default.DBDropIndexName(d, c, name)
 }
 func DBFindOne(d string, c string, ret interface{}, query interface{}) (bool, error) {
 	return Default.DBFindOne(d, c, query, ret)

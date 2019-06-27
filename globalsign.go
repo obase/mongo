@@ -57,6 +57,12 @@ func (gs *gsSession) EnsureIndex(c string, index mgo.Index) (err error) {
 func (gs *gsSession) EnsureIndexKey(c string, key ...string) (err error) {
 	return gs.DBEnsureIndexKey(gs.Option.Database, c, key...)
 }
+func (gs *gsSession) DropIndex(c string, key ...string) error {
+	return gs.DBDropIndex(gs.Option.Database, c, key...)
+}
+func (gs *gsSession) DropIndexName(c string, name string) error {
+	return gs.DBDropIndexName(gs.Option.Database, c, name)
+}
 func (gs *gsSession) FindOne(c string, ret interface{}, query interface{}) (ok bool, err error) {
 	return gs.DBFindOne(gs.Option.Database, c, ret, query)
 }
@@ -173,6 +179,18 @@ func (gs *gsSession) DBEnsureIndexKey(d string, c string, key ...string) (err er
 	defer cs.Close()
 
 	return cs.DB(d).C(c).EnsureIndexKey(key...)
+}
+func (gs *gsSession) DBDropIndex(d string, c string, key ...string) error {
+	cs := gs.Session.Copy()
+	defer cs.Close()
+
+	return cs.DB(d).C(c).DropIndex(key...)
+}
+func (gs *gsSession) DBDropIndexName(d string, c string, name string) error {
+	cs := gs.Session.Copy()
+	defer cs.Close()
+
+	return cs.DB(d).C(c).DropIndexName(name)
 }
 func (gs *gsSession) DBFindOne(d string, c string, ret interface{}, query interface{}) (ok bool, err error) {
 	cs := gs.Session.Copy()
