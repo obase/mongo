@@ -15,7 +15,7 @@ mongo:
     # 模式(可选).primary | primaryPreferred | secondary | secondaryPreferred | nearest | eventual | monotonic | strong, 默认为strong
     model: "Strong"
     # 安全(可选).默认值{"W":0, "WMode":"majority", "RMode":"", "WTimeout":0, "FSync":false, "J":false}
-    safe: {"W":0, "WMode":"majority", "RMode":"", "WTimeout":0, "FSync":false, "J":false}
+    safe: {"W":0, "WMode":"majority", "RMode":"majority", "WTimeout":0, "FSync":false, "J":false}
     # 连接超时(可选). 默认10秒
     connectTimeout: "10s"
     # Keepalive设置(可选). 默认无
