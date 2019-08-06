@@ -362,10 +362,6 @@ func Get(name string) Mongo {
 	return nil
 }
 
-var (
-	ErrDupKey = errors.New("duplicate client name")
-)
-
 func mergeOption(opt *Config) *Config {
 	if opt == nil {
 		opt = new(Config)
@@ -380,18 +376,20 @@ func mergeOption(opt *Config) *Config {
 }
 
 func Setup(name string, opt *Config, def bool) (err error) {
-	_, ok := Clients[name]
-	if ok {
-		err = ErrDupKey
-		return
+
+	keys := strings.Split(name, ",")
+	for _, k := range keys {
+		if _, ok := Clients[k]; ok {
+			err = errors.New("duplicate clickhouse key " + k)
+			return
+		}
 	}
 
 	m, err := newGlobalsignMongo(mergeOption(opt))
 	if err != nil {
 		return
 	}
-
-	for _, k := range strings.Split(name, ",") {
+	for _, k := range keys {
 		if k = strings.TrimSpace(k); len(k) > 0 {
 			Clients[k] = m
 		}
