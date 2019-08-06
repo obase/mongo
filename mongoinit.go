@@ -53,7 +53,7 @@ func init() {
 
 			defalt, ok := conf.ElemBool(config, "default")
 
-			option := &Option{
+			option := &Config{
 				Address:           address,
 				Database:          database,
 				Username:          username,

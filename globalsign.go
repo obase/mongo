@@ -41,119 +41,119 @@ func (b *gsBulk) Run() (matched int, modified int, err error) {
 }
 
 type gsSession struct {
-	*Option
+	*Config
 	*mgo.Session
 }
 
 func (gs *gsSession) Count(c string) (n int, err error) {
-	return gs.DBCount(gs.Option.Database, c)
+	return gs.DBCount(gs.Config.Database, c)
 }
 func (gs *gsSession) Indexes(c string) (indexes []mgo.Index, err error) {
-	return gs.DBIndexes(gs.Option.Database, c)
+	return gs.DBIndexes(gs.Config.Database, c)
 }
 func (gs *gsSession) EnsureIndex(c string, index mgo.Index) (err error) {
-	return gs.DBEnsureIndex(gs.Option.Database, c, index)
+	return gs.DBEnsureIndex(gs.Config.Database, c, index)
 }
 func (gs *gsSession) EnsureIndexKey(c string, key ...string) (err error) {
-	return gs.DBEnsureIndexKey(gs.Option.Database, c, key...)
+	return gs.DBEnsureIndexKey(gs.Config.Database, c, key...)
 }
 func (gs *gsSession) DropIndex(c string, key ...string) error {
-	return gs.DBDropIndex(gs.Option.Database, c, key...)
+	return gs.DBDropIndex(gs.Config.Database, c, key...)
 }
 func (gs *gsSession) DropIndexName(c string, name string) error {
-	return gs.DBDropIndexName(gs.Option.Database, c, name)
+	return gs.DBDropIndexName(gs.Config.Database, c, name)
 }
 func (gs *gsSession) FindOne(c string, ret interface{}, query interface{}) (ok bool, err error) {
-	return gs.DBFindOne(gs.Option.Database, c, ret, query)
+	return gs.DBFindOne(gs.Config.Database, c, ret, query)
 }
 func (gs *gsSession) FindAll(c string, ret interface{}, query interface{}, sort ...string) error {
-	return gs.DBFindAll(gs.Option.Database, c, ret, query, sort...)
+	return gs.DBFindAll(gs.Config.Database, c, ret, query, sort...)
 }
 
 func (gs *gsSession) FindRange(c string, ret interface{}, query interface{}, skip uint32, limit uint32, sort ...string) error {
-	return gs.DBFindRange(gs.Option.Database, c, ret, query, skip, limit, sort...)
+	return gs.DBFindRange(gs.Config.Database, c, ret, query, skip, limit, sort...)
 }
 
 func (gs *gsSession) FindPage(c string, tot *uint32, ret interface{}, query interface{}, skip uint32, limit uint32, sort ...string) error {
-	return gs.DBFindPage(gs.Option.Database, c, tot, ret, query, skip, limit, sort...)
+	return gs.DBFindPage(gs.Config.Database, c, tot, ret, query, skip, limit, sort...)
 }
 
 func (gs *gsSession) FindDistinct(c string, ret interface{}, query interface{}, key string, sort ...string) error {
-	return gs.DBFindDistinct(gs.Option.Database, c, ret, query, key, sort...)
+	return gs.DBFindDistinct(gs.Config.Database, c, ret, query, key, sort...)
 }
 
 func (gs *gsSession) FindId(c string, ret interface{}, id interface{}) (ok bool, err error) {
-	return gs.DBFindId(gs.Option.Database, c, ret, id)
+	return gs.DBFindId(gs.Config.Database, c, ret, id)
 }
 
 func (gs *gsSession) SelectOne(c string, ret interface{}, query interface{}, projection interface{}) (ok bool, err error) {
-	return gs.DBSelectOne(gs.Option.Database, c, ret, query, projection)
+	return gs.DBSelectOne(gs.Config.Database, c, ret, query, projection)
 }
 func (gs *gsSession) SelectAll(c string, ret interface{}, query interface{}, projection interface{}, sort ...string) error {
-	return gs.DBSelectAll(gs.Option.Database, c, ret, query, projection, sort...)
+	return gs.DBSelectAll(gs.Config.Database, c, ret, query, projection, sort...)
 }
 func (gs *gsSession) SelectRange(c string, ret interface{}, query interface{}, projection interface{}, skip uint32, limit uint32, sort ...string) error {
-	return gs.DBSelectRange(gs.Option.Database, c, ret, query, projection, skip, limit, sort...)
+	return gs.DBSelectRange(gs.Config.Database, c, ret, query, projection, skip, limit, sort...)
 }
 func (gs *gsSession) SelectPage(c string, tot *uint32, ret interface{}, query interface{}, projection interface{}, skip uint32, limit uint32, sort ...string) error {
-	return gs.DBSelectPage(gs.Option.Database, c, tot, ret, query, projection, skip, limit, sort...)
+	return gs.DBSelectPage(gs.Config.Database, c, tot, ret, query, projection, skip, limit, sort...)
 }
 func (gs *gsSession) SelectDistinct(c string, ret interface{}, query interface{}, projection interface{}, key string, sort ...string) error {
-	return gs.DBSelectDistinct(gs.Option.Database, c, ret, query, projection, key, sort...)
+	return gs.DBSelectDistinct(gs.Config.Database, c, ret, query, projection, key, sort...)
 }
 func (gs *gsSession) SelectId(c string, ret interface{}, id interface{}, projection interface{}) (ok bool, err error) {
-	return gs.DBSelectId(gs.Option.Database, c, ret, id, projection)
+	return gs.DBSelectId(gs.Config.Database, c, ret, id, projection)
 }
 
 func (gs *gsSession) FindAndUpdate(c string, ret interface{}, query interface{}, update interface{}) (updated int, err error) {
-	return gs.DBFindAndUpdate(gs.Option.Database, c, ret, query, update)
+	return gs.DBFindAndUpdate(gs.Config.Database, c, ret, query, update)
 }
 func (gs *gsSession) FindAndUpsert(c string, ret interface{}, query interface{}, upsert interface{}) (upsertedId interface{}, err error) {
-	return gs.DBFindAndUpsert(gs.Option.Database, c, ret, query, upsert)
+	return gs.DBFindAndUpsert(gs.Config.Database, c, ret, query, upsert)
 }
 func (gs *gsSession) FindAndRemove(c string, ret interface{}, query interface{}) (removed int, err error) {
-	return gs.DBFindAndRemove(gs.Option.Database, c, ret, query)
+	return gs.DBFindAndRemove(gs.Config.Database, c, ret, query)
 }
 func (gs *gsSession) FindAndUpdateRN(c string, ret interface{}, query interface{}, update interface{}) (updated int, err error) {
-	return gs.DBFindAndUpdateRN(gs.Option.Database, c, ret, query, update)
+	return gs.DBFindAndUpdateRN(gs.Config.Database, c, ret, query, update)
 }
 func (gs *gsSession) FindAndUpsertRN(c string, ret interface{}, query interface{}, upsert interface{}) (upsertedId interface{}, err error) {
-	return gs.DBFindAndUpsertRN(gs.Option.Database, c, ret, query, upsert)
+	return gs.DBFindAndUpsertRN(gs.Config.Database, c, ret, query, upsert)
 }
 
 func (gs *gsSession) Insert(c string, docs ...interface{}) (err error) {
-	return gs.DBInsert(gs.Option.Database, c, docs...)
+	return gs.DBInsert(gs.Config.Database, c, docs...)
 }
 func (gs *gsSession) RemoveOne(c string, selector interface{}) (ok bool, err error) {
-	return gs.DBRemoveOne(gs.Option.Database, c, selector)
+	return gs.DBRemoveOne(gs.Config.Database, c, selector)
 }
 func (gs *gsSession) RemoveAll(c string, selector interface{}) (removed int, err error) {
-	return gs.DBRemoveAll(gs.Option.Database, c, selector)
+	return gs.DBRemoveAll(gs.Config.Database, c, selector)
 }
 func (gs *gsSession) RemoveId(c string, id interface{}) (ok bool, err error) {
-	return gs.DBRemoveId(gs.Option.Database, c, id)
+	return gs.DBRemoveId(gs.Config.Database, c, id)
 }
 func (gs *gsSession) UpdateOne(c string, selector interface{}, update interface{}) (ok bool, err error) {
-	return gs.DBUpdateOne(gs.Option.Database, c, selector, update)
+	return gs.DBUpdateOne(gs.Config.Database, c, selector, update)
 }
 func (gs *gsSession) UpdateAll(c string, selector interface{}, update interface{}) (updated int, err error) {
-	return gs.DBUpdateAll(gs.Option.Database, c, selector, update)
+	return gs.DBUpdateAll(gs.Config.Database, c, selector, update)
 }
 func (gs *gsSession) UpdateId(c string, id interface{}, update interface{}) (ok bool, err error) {
-	return gs.DBUpdateId(gs.Option.Database, c, id, update)
+	return gs.DBUpdateId(gs.Config.Database, c, id, update)
 }
 func (gs *gsSession) UpsertOne(c string, selector interface{}, update interface{}) (upsertId interface{}, err error) {
-	return gs.DBUpsertOne(gs.Option.Database, c, selector, update)
+	return gs.DBUpsertOne(gs.Config.Database, c, selector, update)
 }
 func (gs *gsSession) UpsertId(c string, id interface{}, update interface{}) (upsertId interface{}, err error) {
-	return gs.DBUpsertId(gs.Option.Database, c, id, update)
+	return gs.DBUpsertId(gs.Config.Database, c, id, update)
 }
 func (gs *gsSession) RunBulk(c string, f BulkFunc, args ...interface{}) (matched int, modified int, err error) {
-	return gs.DBRunBulk(gs.Option.Database, c, f, args...)
+	return gs.DBRunBulk(gs.Config.Database, c, f, args...)
 }
 
 func (gs *gsSession) RunCollection(c string, f CollectionFunc, args ...interface{}) (interface{}, error) {
-	return gs.DBRunCollection(gs.Option.Database, c, f, args...)
+	return gs.DBRunCollection(gs.Config.Database, c, f, args...)
 }
 
 func (gs *gsSession) DBCount(d string, c string) (n int, err error) {
@@ -658,7 +658,7 @@ func (gs *gsSession) RunSession(f SessionFunc, args ...interface{}) (interface{}
 	return f(cs, args...)
 }
 
-func newGlobalsignMongo(opt *Option) (*gsSession, error) {
+func newGlobalsignMongo(opt *Config) (*gsSession, error) {
 	dsf := func(addr *mgo.ServerAddr) (net.Conn, error) {
 		tcp, err := net.DialTCP("tcp", nil, addr.TCPAddr())
 		if err != nil {
@@ -693,5 +693,5 @@ func newGlobalsignMongo(opt *Option) (*gsSession, error) {
 	}
 	ms.SetSafe(opt.Safe)       //数据安全. 参考https://godoc.org/github.com/globalsign/mgo#Safe
 	ms.SetMode(opt.Mode, true) // 读写时序. 参考https://docs.mongodb.com/manual/reference/read-preference/
-	return &gsSession{Session: ms, Option: opt}, nil
+	return &gsSession{Session: ms, Config: opt}, nil
 }

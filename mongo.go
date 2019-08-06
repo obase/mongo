@@ -327,7 +327,7 @@ func RunSession(c string, f SessionFunc, args ...interface{}) (interface{}, erro
 	return Default.RunSession(f, args...)
 }
 
-type Option struct {
+type Config struct {
 	// 连接URL, 格式为[mongodb://][user:pass@]host1[:port1][,host2[:port2],...][/database][?options]
 	Address  []string
 	Database string
@@ -366,9 +366,9 @@ var (
 	ErrDupKey = errors.New("duplicate client name")
 )
 
-func mergeOption(opt *Option) *Option {
+func mergeOption(opt *Config) *Config {
 	if opt == nil {
-		opt = new(Option)
+		opt = new(Config)
 	}
 	if opt.Safe == nil {
 		opt.Safe = &mgo.Safe{
@@ -379,7 +379,7 @@ func mergeOption(opt *Option) *Option {
 	return opt
 }
 
-func Setup(name string, opt *Option, def bool) (err error) {
+func Setup(name string, opt *Config, def bool) (err error) {
 	_, ok := Clients[name]
 	if ok {
 		err = ErrDupKey
