@@ -53,6 +53,6 @@ func TestFindPage(t *testing.T) {
 
 func TestSelectAll(t *testing.T) {
 	var ms []map[string]interface{}
-	fmt.Println(SelectAll(c, &ms, nil, bson.M{"_id": 1}))
+	fmt.Println(SelectAll(c, &ms, nil, bson.M{"$or": 1}))
 	fmt.Println(ms)
 }
